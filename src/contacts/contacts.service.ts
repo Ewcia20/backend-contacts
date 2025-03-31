@@ -28,9 +28,9 @@ export class ContactsService {
     await await this.contactsRepository.delete(id);
   }
   
-  async searchContacts(surname: string): Promise<Contacts_data[] | null> {
+  async searchContacts(surname: string,  id_user: number): Promise<Contacts_data[] | null> {
      return await this.contactsRepository.find({
-      where: { surname }
+      where: { surname, id_user }
 
      });
     
