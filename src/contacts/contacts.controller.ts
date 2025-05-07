@@ -30,7 +30,7 @@ export class ContactsController {
     @Post('/search')
     @UseGuards(JwtAuthGuard)
     searchContacts(@Body() params: any): Promise<Contacts_data[] | null> {
-        return this.contactsService.searchContacts(params.surname, params.idUser);
+        return this.contactsService.searchContacts(params.data, params.idUser);
 
     }
 

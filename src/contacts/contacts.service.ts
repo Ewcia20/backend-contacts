@@ -28,12 +28,26 @@ export class ContactsService {
     await await this.contactsRepository.delete(id);
   }
   
-  async searchContacts(surname: string,  id_user: number): Promise<Contacts_data[] | null> {
-     return await this.contactsRepository.find({
-      where: { surname, id_user }
+  async searchContacts(dataParam: object | any,  id_user: number): Promise<Contacts_data[] | null> {
+    const data = dataParam.searchData;
+    // if(data == )
+    const text = dataParam.searchText;
 
-     });
+    if(data == 'surname') {
+      return await this.contactsRepository.find({
+       where: {surname: text, id_user }
+      });
+    }
     
+    if(data == 'firstname') {
+      return await this.contactsRepository.find({
+       where: {firstname: text, id_user }
+      });
+    }
+
+    return await this.contactsRepository.find({
+       where: {city: text, id_user }
+    });
     
   }
 
