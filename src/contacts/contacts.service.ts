@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Contacts_data } from './contact.entity';
 import { Repository } from 'typeorm';
 import { ContactModelDto } from './contact.dto';
+import { Like } from 'typeorm';
+
 
 @Injectable()
 export class ContactsService {
@@ -33,10 +35,19 @@ export class ContactsService {
     // if(data == )
     const text = dataParam.searchText;
 
-    if(data == 'surname') {
+    // if(data == 'surname') {
+    //   return await this.contactsRepository.find({
+    //    where: {surname: text, id_user }
+    //   });
+    // }
+
+    if (data ==='surname') {
       return await this.contactsRepository.find({
-       where: {surname: text, id_user }
+        where: {
+        surname:  Like(`%${text}%`), id_user
+        }
       });
+
     }
     
     if(data == 'firstname') {
