@@ -32,7 +32,7 @@ export class ContactsService {
   
   async searchContacts(dataParam: object | any,  id_user: number): Promise<Contacts_data[] | null> {
     const data = dataParam.searchData;
-    // if(data == )
+    
     const text = dataParam.searchText;
 
     // if(data == 'surname') {
@@ -49,11 +49,21 @@ export class ContactsService {
       });
 
     }
-    
-    if(data == 'firstname') {
+    if (data ==='firstname') {
       return await this.contactsRepository.find({
-       where: {firstname: text, id_user }
+        where: {
+        firstname:  Like(`%${text}%`), id_user
+        }
       });
+
+    }
+    if (data ==='city') {
+      return await this.contactsRepository.find({
+        where: {
+        city:  Like(`%${text}%`), id_user
+        }
+      });
+
     }
 
     return await this.contactsRepository.find({
