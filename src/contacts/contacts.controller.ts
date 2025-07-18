@@ -11,15 +11,14 @@ export class ContactsController {
     constructor(private readonly contactsService: ContactsService) {}
 
    @Get('/count/:idUser/:offset/:howmany')
-@UseGuards(JwtAuthGuard)
-getCountContacts(@Param() params: any) {
-    // params.idUser, params.offset, params.howmany są stringami, zamień na liczby
+   @UseGuards(JwtAuthGuard)
+    getCountContacts(@Param() params: any) {
     return this.contactsService.getCountContacts(
         Number(params.idUser),
         Number(params.offset),
         Number(params.howmany)
     );
-}
+    }
     @Get(':idUser')
     @UseGuards(JwtAuthGuard)
     getContacts(@Param() params: any): Promise<Contacts_data[]> {
