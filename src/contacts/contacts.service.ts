@@ -13,10 +13,20 @@ export class ContactsService {
     @InjectRepository(Contacts_data)
     private contactsRepository: Repository<Contacts_data>,
   ) {}
+
+
+  async getCountContacts(id_user: number) {
+    const count = await this.contactsRepository.count({ 
+      where: { id_user }
+    })
+    return {count};
+  }
   
   async getContacts(id_user: number): Promise<Contacts_data[]> {
     return await this.contactsRepository.find({
-      where: { id_user }
+      where: { id_user },
+      skip: 0,
+      take: 10,
     });
   }
   

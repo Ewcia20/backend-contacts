@@ -10,6 +10,11 @@ export class ContactsController {
 
     constructor(private readonly contactsService: ContactsService) {}
 
+    @Get('/count/:idUser')
+    @UseGuards(JwtAuthGuard)
+    getCountContacts(@Param() params: any) {
+        return this.contactsService.getCountContacts(params.idUser);
+    }
     @Get(':idUser')
     @UseGuards(JwtAuthGuard)
     getContacts(@Param() params: any): Promise<Contacts_data[]> {
