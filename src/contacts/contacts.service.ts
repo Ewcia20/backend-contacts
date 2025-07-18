@@ -15,12 +15,16 @@ export class ContactsService {
   ) {}
 
 
-  async getCountContacts(id_user: number) {
-    const count = await this.contactsRepository.count({ 
-      where: { id_user }
-    })
-    return {count};
-  }
+  async getCountContacts(id_user: number, offset: number = 0, howmany: number = 10) {
+  const contacts = await this.contactsRepository.find({
+    where: { id_user },
+    order: { id: 'DESC' },
+    skip: offset,
+    take: howmany,
+  });
+  const count = await this.contactsRepository.count({ where: { id_user } });
+  return { contacts, count };
+}
   
   async getContacts(id_user: number): Promise<Contacts_data[]> {
     return await this.contactsRepository.find({
