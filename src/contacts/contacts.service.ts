@@ -43,48 +43,45 @@ export class ContactsService {
   async removeContact(id: number): Promise<void> {
     await await this.contactsRepository.delete(id);
   }
-  
-  async searchContacts(dataParam: object | any,  id_user: number): Promise<Contacts_data[] | null> {
-    const data = dataParam.searchData;
-    
-    const text = dataParam.searchText;
+  async searchContacts(dataParam: object | any, id_user: number): Promise<Contacts_data[] | null> {
+  const data = dataParam.searchData;
+  const text = dataParam.searchText;
 
-    // if(data == 'surname') {
-    //   return await this.contactsRepository.find({
-    //    where: {surname: text, id_user }
-    //   });
-    // }
-
-    if (data ==='surname') {
-      return await this.contactsRepository.find({
-        where: {
-        surname:  Like(`%${text}%`), id_user
-        }
-      });
-
-    }
-    if (data ==='firstname') {
-      return await this.contactsRepository.find({
-        where: {
-        firstname:  Like(`%${text}%`), id_user
-        }
-      });
-
-    }
-    if (data ==='city') {
-      return await this.contactsRepository.find({
-        where: {
-        city:  Like(`%${text}%`), id_user
-        }
-      });
-
-    }
-
+  if (data === 'surname') {
     return await this.contactsRepository.find({
-       where: {city: text, id_user }
+      where: {
+        surname: Like(`${text}%`), // zaczyna się od wpisanych liter
+        id_user
+      },
+      order: { id: 'DESC' }
     });
-    
   }
+  if (data === 'firstname') {
+    return await this.contactsRepository.find({
+      where: {
+        firstname: Like(`${text}%`),
+        id_user
+      },
+      order: { id: 'DESC' }
+    });
+  }
+  if (data === 'city') {
+    return await this.contactsRepository.find({
+      where: {
+        city: Like(`${text}%`),
+        id_user
+      },
+      order: { id: 'DESC' }
+    });
+  }
+
+  // domyślnie szukaj po mieście
+  return await this.contactsRepository.find({
+    where: { city: Like(`${text}%`), id_user },
+    order: { id: 'DESC' }
+  });
+}
+ 
 
   async addContact(contactData: ContactModelDto): Promise<any> {
     const contact = this.contactsRepository.create(contactData)
